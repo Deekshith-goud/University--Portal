@@ -85,7 +85,9 @@ class Announcement(SQLModel, table=True):
 ### Authentication
 - `POST /auth/login`: Returns access_token.
 - `GET /auth/me`: Returns current user profile.
-- `POST /auth/register`: (Admin only) Register new faculty/admin.
+- `POST /auth/register`: Public endpoint. Requires `otp` verification.
+- `POST /auth/send-otp`: Generate and email 6-digit code.
+- `POST /auth/reset-password`: Reset password using verified OTP.
 
 ### Dashboard
 - `GET /dashboard/stats`: Returns counts tailored to the user's role.
@@ -105,6 +107,33 @@ class Announcement(SQLModel, table=True):
 - `GET /announcements`: Public feed.
 - `POST /events`: (Admin) Create event.
 - `POST /events/{id}/apply`: (Student) Register for event.
+
+### Clubs
+- `GET /clubs`: List all clubs.
+- `GET /clubs/{id}`: Club details.
+- `POST /clubs`: (Faculty) Create club.
+- `PUT /clubs/{id}`: (Faculty/Lead) Update club profile (color, icon, description).
+- `POST /clubs/{id}/join`: (Student) Join/Leave club.
+- `GET /clubs/{id}/members`: List club members.
+- `POST /clubs/{id}/events`: (Faculty/Lead) Create club event.
+- `GET /clubs/{id}/events`: List club events.
+
+## Database Schema (Updates)
+
+```python
+class Club(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    description: str
+    category: str
+    color: str
+    icon: str
+    created_by: int = Field(foreign_key="user.id")
+    
+class Event(SQLModel, table=True):
+    # ... existing fields
+    club_id: Optional[int] = Field(default=None, foreign_key="club.id") 
+```
 
 ## Deployment Strategy
 - **Frontend**: Vercel (Production optimized build).

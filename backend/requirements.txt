@@ -1,9 +1,8 @@
 fastapi
-uvicorn[standard]
-sqlmodel
-psycopg2-binary
-python-multipart
-pyjwt
-passlib[bcrypt]
+uvicorn
+sqlalchemy
+pymysql
+python-jose
 bcrypt
-pydantic-settings
+python-multipart
+python-dotenv
