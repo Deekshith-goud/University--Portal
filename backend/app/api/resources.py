@@ -33,7 +33,7 @@ class NoteRead(BaseModel):
     uploaded_by: UploaderInfo | None = None
     branch: str | None = None
     tag: str | None = None
-    semester: int | None = None
+    year: int | None = None
     
     class Config:
         from_attributes = True
@@ -45,7 +45,7 @@ def upload_note(
     branch: str = Form(None),
     tag: str = Form(None),
     section: str = Form(None),
-    semester: int = Form(None),
+    year: int = Form(None),
     file: UploadFile = File(...),
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_active_user)
@@ -72,7 +72,7 @@ def upload_note(
         branch=branch,
         tag=tag,
         section=section,
-        semester=semester,
+        year=year,
         file_url=db_file_url,
         uploaded_by_id=current_user.id
     )
@@ -93,7 +93,7 @@ def read_notes(
     
     if current_user.role == "student":
          # Filter: semester matches or is null (shared)
-         query = query.filter((Note.semester == None) | (Note.semester == current_user.semester))
+         query = query.filter((Note.year == None) | (Note.year == current_user.year))
          
     notes = session.execute(query).scalars().unique().all()
     return notes

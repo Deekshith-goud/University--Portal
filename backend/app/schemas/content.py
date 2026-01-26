@@ -11,6 +11,7 @@ class AnnouncementBase(BaseModel):
     category: Optional[str] = "Notice" # Circular, Notice, Exam, etc.
     is_pinned: bool = False
     target_departments: Optional[List[str]] = None # List of depts or None for all
+    target_years: Optional[List[str]] = None # List of years (1-4) or None
     images: Optional[List[str]] = [] # List of image URLs
 
 class AnnouncementCreate(AnnouncementBase):
@@ -72,7 +73,7 @@ class EventRegistrationCreate(BaseModel):
     registration_number: Optional[str] = None
     branch: Optional[str] = None
     section: Optional[str] = None
-    semester: Optional[str] = None
+    year: Optional[str] = None
 
     # New Fields
     student_phone: Optional[str] = None

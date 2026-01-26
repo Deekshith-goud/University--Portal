@@ -20,13 +20,11 @@ class UserUpdate(BaseModel):
     name: Optional[str] = None
     password: Optional[str] = None
     email: Optional[str] = None
-    semester: Optional[int] = None
+    year: Optional[int] = None
+    branch: Optional[str] = None
+    section: Optional[str] = None
 
 router = APIRouter(prefix="", tags=["users"])
-
-# ... (Dashboard endpoint skipped in replace context, ensure it remains if contiguous, but here we are targeting UserUpdate class definition and update_user_me function which are far apart. Better to use multi_replace or just update UserUpdate first then function.
-# Let's check lines. UserUpdate is at line 19. update_user_me is at line 74.
-# I will use multi_replace.
 
 @router.get("/dashboard/stats")
 async def get_dashboard_stats(
@@ -68,7 +66,7 @@ def create_user_by_admin(user_in: AdminUserCreate, session: Session = Depends(ge
         password_hash=hashed,
         role=user_in.role,
         branch=user_in.branch, # Faculty might have branch
-        semester=None, # Explicitly None for non-students
+        year=None, # Explicitly None for non-students
         is_active=True
     )
     session.add(user)
@@ -82,8 +80,12 @@ def update_user_me(user_update: UserUpdate, session: Session = Depends(get_sessi
         current_user.name = user_update.name
     if user_update.email:
         current_user.email = user_update.email
-    if user_update.semester:
-        current_user.semester = user_update.semester
+    if user_update.year:
+        current_user.year = user_update.year
+    if user_update.branch:
+        current_user.branch = user_update.branch
+    if user_update.section:
+        current_user.section = user_update.section
     if user_update.password:
         current_user.password_hash = get_password_hash(user_update.password)
     

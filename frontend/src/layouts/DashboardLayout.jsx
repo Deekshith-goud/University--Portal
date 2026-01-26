@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
-import { LayoutDashboard, BookOpen, Calendar, FileText, LogOut, Upload, Menu, X, ChevronRight, User, Compass } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Calendar, FileText, LogOut, Upload, Menu, X, ChevronRight, User, Compass, Trophy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 
@@ -57,6 +57,7 @@ const DashboardLayout = () => {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Explore', href: '/explore', icon: Compass },
+    { name: 'Achievements', href: '/achievements', icon: Trophy },
     { name: 'Assignments', href: '/assignments', icon: BookOpen },
     { name: 'Events', href: '/events', icon: Calendar },
     { name: 'Announcements', href: '/announcements', icon: FileText },

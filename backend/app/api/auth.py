@@ -40,7 +40,7 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), ses
         "branch": user.branch,
         "section": user.section,
         "section": user.section,
-        "semester": user.semester
+        "year": user.year
     }
     
     access_token = create_access_token(subject=user.email, additional_claims=claims)
@@ -136,7 +136,7 @@ def register_user(user_in: UserCreate, session: Session = Depends(get_session)):
         registration_number=user_in.registration_number,
         branch=user_in.branch,
         section=user_in.section,
-        semester=user_in.semester,
+        year=user_in.year,
         is_active=True
     )
     session.add(user)

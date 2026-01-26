@@ -18,9 +18,7 @@ const Signup = () => {
     
     // Student Details
     const [regNo, setRegNo] = useState('');
-    const [branch, setBranch] = useState('');
-    const [section, setSection] = useState('');
-    const [semester, setSemester] = useState('1'); // Default Semester 1
+
 
     // UX State
     const [otpSent, setOtpSent] = useState(false);
@@ -76,9 +74,7 @@ const Signup = () => {
                 password, 
                 otp,
                 registration_number: regNo,
-                branch,
-                section,
-                semester: parseInt(semester)
+                // branch, section, year removed - user completes later
             });
             showToast("Account created! Redirecting to login...", 'success');
             setTimeout(() => navigate(`/login`), 1500);
@@ -169,38 +165,7 @@ const Signup = () => {
                                 />
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <div className="group relative">
-                                    <select 
-                                        className="w-full pl-3 pr-8 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all appearance-none cursor-pointer text-slate-600"
-                                        value={semester}
-                                        onChange={e => setSemester(e.target.value)}
-                                        required
-                                    >
-                                        {[1, 2, 3, 4, 5, 6, 7, 8].map(s => <option key={s} value={s}>Semester {s}</option>)}
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                                        <ArrowRight className="w-3 h-3 text-slate-400 rotate-90" />
-                                    </div>
-                                </div>
-                                <div className="md:col-span-2">
-                                     <CommonInput 
-                                        icon={RefreshCw} // Placeholder icon for branch
-                                        type="text" 
-                                        placeholder="Branch (e.g. CSE)" 
-                                        required 
-                                        value={branch} onChange={e => setBranch(e.target.value)} 
-                                    />
-                                </div>
-                            </div>
-                            
-                            <CommonInput 
-                                icon={RefreshCw} // Placeholder icon for section
-                                type="text" 
-                                placeholder="Section (e.g. A, B)" 
-                                required 
-                                value={section} onChange={e => setSection(e.target.value)} 
-                            />
+
 
                             <div className="flex gap-2">
                                 <div className="group relative flex-1">
