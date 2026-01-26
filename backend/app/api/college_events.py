@@ -71,7 +71,7 @@ def read_college_events(
     events = session.query(Event).filter(Event.club_id == None).order_by(Event.date).all()
     
     results = []
-    current_sem_str = str(current_user.semester) if current_user.semester else None
+    current_year_str = str(current_user.year) if current_user.year else None
     
     for event in events:
         # 1. Eligibility Filter (Semesters)
@@ -83,7 +83,7 @@ def read_college_events(
         # If student and eligibility is restricted (not empty), check if semester matches
         if current_user.role == "student" and eligibility_list:
             # Assume eligibility_list contains strings of semesters e.g. ["1", "3", "5"]
-            if current_sem_str not in eligibility_list:
+            if current_year_str not in eligibility_list:
                 continue
 
         # Count registrations

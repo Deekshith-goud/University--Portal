@@ -24,6 +24,7 @@ const Announcements = () => {
         category: 'Notice',
         is_pinned: false,
         target_departments: [], // Array of strings or empty for All
+        target_years: [], // Array of strings (1-4) or empty for All
         attachments: [], // {name, url}
         images: [] // urls
     });
@@ -78,6 +79,17 @@ const Announcements = () => {
                 return { ...prev, target_departments: current.filter(d => d !== dept) };
             } else {
                 return { ...prev, target_departments: [...current, dept] };
+            }
+        });
+    };
+
+    const toggleYear = (yr) => {
+        setNewPost(prev => {
+            const current = prev.target_years || [];
+            if (current.includes(yr)) {
+                return { ...prev, target_years: current.filter(y => y !== yr) };
+            } else {
+                return { ...prev, target_years: [...current, yr] };
             }
         });
     };
@@ -355,6 +367,23 @@ const Announcements = () => {
                                                     className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${newPost.target_departments.includes(dept) ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:border-indigo-300'}`}
                                                 >
                                                     {dept}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Target Years */}
+                                    <div className="mt-4">
+                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Target Years (Optional)</label>
+                                        <div className="flex gap-2">
+                                            {['1', '2', '3', '4'].map(yr => (
+                                                <button 
+                                                    key={yr}
+                                                    type="button"
+                                                    onClick={() => toggleYear(yr)}
+                                                    className={`w-10 h-10 rounded-lg text-sm font-black border transition-all ${(newPost.target_years || []).includes(yr) ? 'bg-purple-600 border-purple-600 text-white shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:border-purple-300'}`}
+                                                >
+                                                    {yr}
                                                 </button>
                                             ))}
                                         </div>

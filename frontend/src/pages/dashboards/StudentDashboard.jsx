@@ -4,6 +4,7 @@ import { BookOpen, Clock, Calendar, CheckCircle, ArrowRight, Zap, Award, AlertTr
 import { Link } from 'react-router-dom';
 import { CinematicReveal } from '../../components/ui/CinematicReveal';
 import api from '../../services/api';
+import AchievementList from '../../components/AchievementList';
 
 const StudentDashboard = ({ user, stats }) => {
   const [announcements, setAnnouncements] = useState([]);
@@ -138,6 +139,14 @@ const StudentDashboard = ({ user, stats }) => {
                          <Link to="/announcements" className="block text-center text-xs font-bold text-indigo-500 mt-2 hover:underline">View All Announcements</Link>
                     </div>
                 )}
+            </motion.div>
+
+            {/* My Achievements (NEW) */}
+            <motion.div variants={item} className="p-6 bg-[#0f1115] rounded-[2rem] border border-white/10 shadow-xl overflow-hidden relative">
+                 {/* Background Glows */}
+                 <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+                 
+                 <AchievementList userId="my" />
             </motion.div>
 
             {/* Today's Schedule Row */}

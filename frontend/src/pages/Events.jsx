@@ -8,6 +8,7 @@ import {
 import api from '../services/api';
 import { useAuth } from '../auth/AuthProvider';
 import { CinematicReveal } from '../components/ui/CinematicReveal';
+import AchievementList from '../components/AchievementList';
 
 const Events = () => {
     const { user } = useAuth();
@@ -21,6 +22,7 @@ const Events = () => {
 
     const [selectedArchivedEvent, setSelectedArchivedEvent] = useState(null); // For Split Modal
     const [viewRegistrations, setViewRegistrations] = useState(null); // For Faculty View
+    const [managingAchievements, setManagingAchievements] = useState(null); // For Achievements Modal (Active Events)
     const [registrationsList, setRegistrationsList] = useState([]); // Stores fetched registrations
 
     // Create Event State
@@ -35,7 +37,7 @@ const Events = () => {
         team_name: '', team_size: 1, member_details: '', student_phone: '',
         student_email: '', id_proof_url: '', payment_screenshot_url: '', contact_type: 'phone',
         // Individual fields for lead/student
-        student_name: '', registration_number: '', branch: '', section: '', semester: ''
+        student_name: '', registration_number: '', branch: '', section: '', year: ''
     });
     const [teamMembers, setTeamMembers] = useState([]); // Array for extra members
 
@@ -255,12 +257,20 @@ const Events = () => {
                                          <p className="text-slate-500 text-sm line-clamp-2 mb-6">{event.description}</p>
                                           <div className="mt-auto">
                                             {(user?.role === 'admin' || user?.role === 'faculty') ? (
+                                                <>
                                                 <button 
                                                     onClick={() => handleViewRegistrations(event)}
                                                     className="w-full py-4 rounded-2xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-3 bg-slate-900 text-white shadow-lg hover:shadow-xl transition-all"
                                                 >
                                                     <Users className="w-4 h-4" /> View Registrations ({event.registration_count})
                                                 </button>
+                                                <button 
+                                                    onClick={() => setManagingAchievements(event)}
+                                                    className="w-full mt-2 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-all"
+                                                >
+                                                    <Trophy className="w-4 h-4 text-amber-500" /> Manage Achievements
+                                                </button>
+                                                </>
                                             ) : (
                                                 <button 
                                                     onClick={() => { 
@@ -272,7 +282,7 @@ const Events = () => {
                                                             registration_number: user?.registration_number || '', 
                                                             branch: user?.branch || '', 
                                                             section: user?.section || '', 
-                                                            semester: user?.semester || '', 
+                                                            year: user?.year || '', 
                                                             student_email: user?.email || '', 
                                                             contact_type: 'phone',
                                                             team_size: 1 
@@ -421,7 +431,32 @@ const Events = () => {
                                             </div>
                                         </div>
                                     )}
+                                    
+                                     {/* ACHIEVEMENTS SECTION (Public) */}
+                                     <div className="pt-6 border-t border-slate-100">
+                                        <AchievementList eventId={selectedArchivedEvent.id} readOnly={true} className="mt-4" />
+                                     </div>
                                 </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* MANAGE ACHIEVEMENTS MODAL (Active) */}
+            <AnimatePresence>
+                {managingAchievements && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+                        <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="bg-[#0f1115] w-full max-w-2xl max-h-[85vh] rounded-2xl shadow-xl flex flex-col overflow-hidden border border-white/10">
+                            <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
+                                <div>
+                                    <h2 className="text-lg font-bold text-white flex items-center gap-2"><Trophy className="text-amber-400" size={20} /> Event Achievements</h2>
+                                    <p className="text-xs text-gray-400">{managingAchievements.title}</p>
+                                </div>
+                                <button onClick={() => setManagingAchievements(null)} className="p-2 hover:bg-white/10 rounded-full text-gray-400 hover:text-white"><X className="w-5 h-5" /></button>
+                            </div>
+                            <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                                <AchievementList eventId={managingAchievements.id} readOnly={false} />
                             </div>
                         </motion.div>
                     </div>

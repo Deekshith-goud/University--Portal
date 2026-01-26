@@ -88,7 +88,7 @@ def read_college_announcements(
     announcements = query.limit(limit).all()
     
     results = []
-    current_sem_str = str(current_user.semester) if current_user.semester else None
+    current_year_str = str(current_user.year) if current_user.year else None
 
     for ann in announcements:
         # Check Department visibility
@@ -98,10 +98,10 @@ def read_college_announcements(
         except:
              pass
         
-        # Check Semester visibility
-        target_sems = []
+        # Check Year visibility
+        target_years = []
         try:
-             target_sems = json.loads(ann.target_semesters) if ann.target_semesters else []
+             target_years = json.loads(ann.target_years) if ann.target_years else []
         except:
              pass
 
@@ -111,9 +111,9 @@ def read_college_announcements(
              if department and target_depts:
                  if department not in target_depts:
                      continue
-             # 2. Semester Filter
-             if target_sems:
-                 if current_sem_str not in target_sems:
+             # 2. Year Filter
+             if target_years:
+                 if current_year_str not in target_years:
                      continue
 
         # Convert to Read Schema
@@ -121,12 +121,12 @@ def read_college_announcements(
         try:
             ann_dict['attachments'] = json.loads(ann.attachments) if ann.attachments else []
             ann_dict['target_departments'] = target_depts
-            ann_dict['target_semesters'] = target_sems
+            ann_dict['target_years'] = target_years
             ann_dict['images'] = json.loads(ann.images) if ann.images else []
         except:
             ann_dict['attachments'] = []
             ann_dict['target_departments'] = []
-            ann_dict['target_semesters'] = []
+            ann_dict['target_years'] = []
             ann_dict['images'] = []
             
         results.append(ann_dict)

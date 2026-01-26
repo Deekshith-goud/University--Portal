@@ -41,6 +41,9 @@ app.include_router(clubs.router)
 app.include_router(college_events.router)
 app.include_router(college_announcements.router)
 
+from app.api import achievements
+app.include_router(achievements.router)
+
 from app.api import uploads
 app.include_router(uploads.router)
 

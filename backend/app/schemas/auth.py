@@ -22,7 +22,7 @@ class UserCreate(BaseModel):
     registration_number: Optional[str] = None
     branch: Optional[str] = None
     section: Optional[str] = None
-    semester: Optional[int] = 1 # Default 1 for students if not specified
+    year: Optional[int] = 1 # Default 1 for students if not specified
 
 class UserOut(BaseModel):
     id: int
@@ -32,7 +32,7 @@ class UserOut(BaseModel):
     is_active: bool
     branch: Optional[str] = None
     section: Optional[str] = None
-    semester: Optional[int] = None
+    year: Optional[int] = None
     registration_number: Optional[str] = None
     created_at: Optional[datetime] = None
     events_participated_count: Optional[int] = 0

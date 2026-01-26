@@ -15,7 +15,9 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        semester: ''
+        year: '',
+        branch: '',
+        section: ''
     });
 
     useEffect(() => {
@@ -23,7 +25,9 @@ const Profile = () => {
             setFormData({
                 name: user.name || '',
                 email: user.email || '',
-                semester: user.semester || ''
+                year: user.year || '',
+                branch: user.branch || '',
+                section: user.section || ''
             });
         }
     }, [user]);
@@ -36,8 +40,10 @@ const Profile = () => {
             const payload = {};
             if (formData.name !== user.name) payload.name = formData.name;
             if (formData.email !== user.email) payload.email = formData.email;
-            if (user.role === 'student' && parseInt(formData.semester) !== user.semester) {
-                payload.semester = parseInt(formData.semester);
+            if (user.role === 'student') {
+                if (parseInt(formData.year) !== user.year) payload.year = parseInt(formData.year);
+                if (formData.branch !== user.branch) payload.branch = formData.branch;
+                if (formData.section !== user.section) payload.section = formData.section;
             }
 
             if (Object.keys(payload).length > 0) {
@@ -210,8 +216,8 @@ const Profile = () => {
                      {/* Stats Grid */}
                      <div className="grid grid-cols-2 gap-4">
                         <StatCard 
-                            label={user.semester ? "Semester" : "Years Active"} 
-                            value={user.semester || "1+"} 
+                            label={user.year ? "Year" : "Years Active"} 
+                            value={user.year || "1+"} 
                             icon={Calendar} 
                             color="bg-emerald-500 text-emerald-600" 
                         />
@@ -259,20 +265,25 @@ const Profile = () => {
                                     </div>
 
                                     <EditableField 
-                                        label="Current Semester" 
-                                        value={`Semester ${user.semester}`} 
-                                        field="semester" 
-                                        options={[1, 2, 3, 4, 5, 6, 7, 8]}
+                                        label="Current Year" 
+                                        value={`Year ${user.year}`} 
+                                        field="year" 
+                                        options={[1, 2, 3, 4]}
                                     />
 
-                                    <div>
-                                         <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Section</p>
-                                         <div className="flex items-center gap-2">
-                                            <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center font-bold text-slate-600">
-                                                {user.section || 'A'}
-                                            </div>
-                                         </div>
-                                    </div>
+                                    <EditableField 
+                                        label="Branch" 
+                                        value={user.branch || "Not Set"} 
+                                        field="branch"
+                                        type="text"
+                                    />
+
+                                    <EditableField 
+                                        label="Section" 
+                                        value={user.section || "Not Set"} 
+                                        field="section"
+                                        type="text"
+                                    />
                                 </>
                             )}
 

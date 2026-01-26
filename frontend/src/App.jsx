@@ -15,6 +15,7 @@ import Resources from './pages/Resources';
 import Explore from './pages/Explore';
 import ClubDetail from './pages/ClubDetail';
 import Profile from './pages/Profile';
+import Achievements from './pages/Achievements';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }) => {
@@ -50,6 +51,7 @@ function AppRoutes() {
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/announcements" element={<Announcements />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/achievements" element={<Achievements />} />
 
             <Route path="/resources" element={<Resources />} />
             <Route path="/profile" element={<Profile />} />

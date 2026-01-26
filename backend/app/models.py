@@ -20,12 +20,23 @@ class User(Base):
     registration_number = Column(String(50), unique=True, nullable=True) # Unique for students
     branch = Column(String(50), nullable=True)
     section = Column(String(50), nullable=True)
-    semester = Column(Integer, nullable=True) # 1-8 for students, NULL for others
+    year = Column(Integer, nullable=True) # 1-4 for students, NULL for others
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Relationships (Optional but good for access)
     assignments = relationship("Assignment", back_populates="faculty")
     submissions = relationship("Submission", back_populates="student")
+    achievements = relationship("Achievement", back_populates="user")
+
+class OTP(Base):
+    __tablename__ = "otps"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), index=True, nullable=False)
+    otp = Column(String(6), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    is_verified = Column(Boolean, default=False)
+    purpose = Column(String(50), default="login") # login, signup, reset
 
 # -----------------------------------------------------------------------------
 # Academic Models
@@ -105,6 +116,7 @@ class Event(Base):
 
     club = relationship("Club", back_populates="events")
     registrations = relationship("EventRegistration", back_populates="event")
+    achievements = relationship("Achievement", back_populates="event")
 
 class EventRegistration(Base):
     __tablename__ = "event_registrations"
@@ -150,7 +162,7 @@ class Announcement(Base):
     category = Column(String(100), default="Notice")
     is_pinned = Column(Boolean, default=False)
     target_departments = Column(Text, nullable=True) # JSON
-    target_semesters = Column(Text, nullable=True) # JSON: List[int] or List[str]
+    target_years = Column(Text, nullable=True) # JSON: List[int] or List[str]
     images = Column(Text, nullable=True) # JSON
 
 class Note(Base):
@@ -166,7 +178,7 @@ class Note(Base):
     
     # Explore / Contribution Fields
     branch = Column(String(50), nullable=True)  # e.g. CSE, ECE
-    semester = Column(Integer, nullable=True)   # e.g. 1-8
+    year = Column(Integer, nullable=True)   # e.g. 1-4
     tag = Column(String(100), nullable=True)    # e.g. Unit-1, Midterm
     section = Column(String(50), nullable=True) # e.g. A, B, Unique Section
 
@@ -204,15 +216,32 @@ class ClubMembership(Base):
     club = relationship("Club", back_populates="memberships")
     student = relationship("User")
 
+    created_at = Column(DateTime, default=datetime.utcnow)
+
 # -----------------------------------------------------------------------------
-# OTP Model
+# Achievement Model
 # -----------------------------------------------------------------------------
-class OTP(Base):
-    __tablename__ = "otps"
+class Achievement(Base):
+    __tablename__ = "achievements"
 
     id = Column(Integer, primary_key=True, index=True)
-    email = Column(String(255), index=True, nullable=False)
-    code = Column(String(6), nullable=False)
-    expires_at = Column(DateTime, nullable=False)
-    is_used = Column(Boolean, default=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    
+    # Event Linkage (Internal vs External)
+    event_id = Column(Integer, ForeignKey("events.id"), nullable=True)
+    external_event_name = Column(String(255), nullable=True) # For external events
+    
+    # Details
+    title = Column(String(255), nullable=False) # e.g. Winner, Topper
+    description = Column(Text, nullable=True)
+    category = Column(String(100), default="Internal") # Internal, External, Academic, Sports
+    badge = Column(String(50), default="Gold") # Gold, Silver, Bronze, Participate
+    
+    # Media
+    image_url = Column(String(500), nullable=True) # Photo of winning
+    certificate_url = Column(String(500), nullable=True) # Proof
+    
     created_at = Column(DateTime, default=datetime.utcnow)
+
+    event = relationship("Event", back_populates="achievements")
+    user = relationship("User", back_populates="achievements")
