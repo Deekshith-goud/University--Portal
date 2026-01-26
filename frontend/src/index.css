@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  .animate-shine {
+    animation: shine 1.5s infinite;
+  }
+  .animate-gradient-x {
+      animation: gradient-x 3s ease infinite;
+      background-size: 200% 200%;
+  }
+  
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+  
+  @keyframes shine {
+      100% {
+          transform: translateX(100%);
+      }
+  }
+
+  @keyframes gradient-x {
+      0%, 100% {
+          background-position: 0% 50%;
+      }
+      50% {
+          background-position: 100% 50%;
+      }
+  }
+
+  .pattern-grid {
+      background-image: linear-gradient(currentColor 1px, transparent 1px),
+      linear-gradient(to right, currentColor 1px, transparent 1px);
+      background-size: 20px 20px;
+  }
+  
+  .pattern-dots {
+      background-image: radial-gradient(currentColor 1px, transparent 1px);
+      background-size: 20px 20px;
+  }
+
+  /* Liquid Crystal / Glassmorphism Utilities */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  .glass-panel-gradient {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.15) 50%, rgba(59, 130, 246, 0.15) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-panel-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    mask-image: linear-gradient(to bottom, black, transparent);
+  }
+
+  .glass-badge {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 
+      inset 0 1px 1px rgba(255, 255, 255, 0.9),
+      0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  .glass-pill-green {
+    background: rgba(16, 185, 129, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 0 10px rgba(16, 185, 129, 0.2);
+  }
+
+  .glass-pill-rose {
+    background: rgba(244, 63, 94, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 0 10px rgba(244, 63, 94, 0.2);
+  }
+
+  .etched-icon {
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.6));
+  }
+
+  .neon-button {
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(4px);
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 0 15px rgba(79, 70, 229, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .neon-button:hover {
+    box-shadow: 
+      0 0 0 1px rgba(99, 102, 241, 0.5),
+      0 10px 15px -3px rgba(99, 102, 241, 0.2),
+      0 0 20px rgba(79, 70, 229, 0.6);
+    transform: translateY(-1px);
+  }
+
+  .milky-glass {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+}

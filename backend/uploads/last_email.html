@@ -1,0 +1,144 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap');
+            body { margin: 0; padding: 0; font-family: 'Outfit', sans-serif; background-color: #f3f4f6; color: #1f2937; }
+            .wrapper { width: 100%; padding: 60px 0; background: #f3f4f6; }
+            
+            .card { 
+                max-width: 450px; 
+                margin: 0 auto; 
+                background: #ffffff; 
+                border-radius: 24px; 
+                overflow: hidden; 
+                box-shadow: 0 20px 60px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.05);
+                border: 1px solid rgba(255,255,255,0.8);
+                position: relative;
+            }
+            
+            /* The "Shining" Top Gradient */
+            .card-header {
+                background: #0f172a; /* Dark Navy */
+                padding: 40px;
+                text-align: center;
+                border-bottom: 1px solid #1e293b;
+                position: relative;
+            }
+            
+            /* Holographic/Shine Accent */
+            .shine-bar {
+                height: 4px;
+                width: 100%;
+                background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #6366f1);
+                background-size: 300% 100%;
+                position: absolute;
+                top: 0; left: 0; right: 0;
+            }
+
+            .logo-circle {
+                width: 56px; height: 56px;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%); /* Darker circle */
+                border-radius: 18px;
+                margin: 0 auto 20px;
+                display: flex; 
+                line-height: 56px; 
+                text-align: center;
+                color: #fff; /* White Text */
+                font-size: 24px;
+                font-weight: bold;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .title { font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 8px; } /* White Title */
+            .subtitle { font-size: 13px; color: #94a3b8; font-weight: 400; } /* Muted Text */
+
+            .content { padding: 40px; text-align: center; background: #fff; }
+            
+            .otp-card {
+                background: #fafafa;
+                border: 1px solid #e5e7eb;
+                border-radius: 16px;
+                padding: 15px;
+                margin: 25px 0;
+                position: relative;
+                overflow: hidden;
+            }
+            /* Subtle inner shine */
+            .otp-card::before {
+                content: '';
+                position: absolute;
+                top: -50%; left: -50%; width: 200%; height: 200%;
+                background: radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 60%);
+                pointer-events: none;
+            }
+            
+            .otp-code { 
+                font-family: monospace; 
+                font-size: 32px; 
+                letter-spacing: 8px; 
+                font-weight: 700; 
+                color: #111;
+                position: relative;
+                z-index: 2;
+            }
+            
+            .btn {
+                display: inline-block;
+                background: #0f172a; /* Match Header */
+                color: #fff;
+                font-size: 12px;
+                font-weight: 600;
+                padding: 12px 30px;
+                border-radius: 50px;
+                text-decoration: none;
+                margin-top: 10px;
+                box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
+            }
+
+            .footer { 
+                background: #0f172a; /* Dark Navy Footer */
+                padding: 20px; 
+                text-align: center; 
+                font-size: 11px; 
+                color: #94a3b8;
+                border-top: 1px solid #1e293b;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="card">
+                <div class="shine-bar"></div>
+                <div class="card-header">
+                    <div class="logo-circle">U</div>
+                    <div class="title">Welcome to VFSTR</div>
+                    <div class="subtitle">Account Verification</div>
+                </div>
+                
+                <div class="content">
+                    <div class="greeting">Verify Your Email</div>
+                    <div class="text">
+                        Thank you for joining. Use the code below to verify your email and complete your registration.
+                    </div>
+                    
+                    <div class="otp-card">
+                        <div class="otp-code">410770</div>
+                    </div>
+                    
+                    <div class="subtitle" style="margin-top: 20px; font-size: 11px;">
+                        This code expires in 5 minutes. Do not share it with anyone.
+                    </div>
+                </div>
+                
+                <div class="footer">
+                    VFSTR Deemed to be University • Secure Portal
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
+    
