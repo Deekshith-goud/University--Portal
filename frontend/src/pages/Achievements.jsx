@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Filter, Plus, Search, Medal, Star, Hash, Globe, GraduationCap } from 'lucide-react';
+import { Trophy, Filter, Plus, Search, Medal, Star, Hash, Globe, GraduationCap, Upload } from 'lucide-react';
 import api from '../services/api';
 import AchievementCard from '../components/AchievementCard';
 import { useAuth } from '../auth/AuthProvider';
@@ -16,7 +16,7 @@ const Achievements = () => {
     // Create Modal State
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [formData, setFormData] = useState({
-        user_id: '',
+        registration_number: '',
         title: '',
         description: '',
         category: 'Internal', // Internal, External, Academic, Sports
@@ -63,7 +63,7 @@ const Achievements = () => {
         e.preventDefault();
         try {
             const payload = {
-                user_id: parseInt(formData.user_id),
+                registration_number: formData.registration_number,
                 title: formData.title,
                 description: formData.description,
                 category: formData.category,
@@ -84,13 +84,31 @@ const Achievements = () => {
             await api.post('/achievements/', payload);
             setIsCreateOpen(false);
             setFormData({
-                user_id: '', title: '', description: '', category: 'Internal', badge: 'Gold',
+                registration_number: '', title: '', description: '', category: 'Internal', badge: 'Gold',
                 event_id: '', external_event_name: '', image_url: '', certificate_url: ''
             });
             fetchAchievements();
             alert("Achievement Recorded to Hall of Fame! 🏆");
         } catch (err) {
             alert(err.response?.data?.detail || "Failed to create");
+        }
+    };
+
+    const handleFileUpload = async (e, field) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const uploadData = new FormData();
+        uploadData.append('file', file);
+        
+        try {
+            const res = await api.post('/upload/file', uploadData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            setFormData(prev => ({ ...prev, [field]: res.data.url }));
+        } catch (err) {
+            console.error("Upload failed", err);
+            alert("Failed to upload file");
         }
     };
 
@@ -216,16 +234,16 @@ const Achievements = () => {
                             
                             <form onSubmit={handleCreate} className="p-6 space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                     {/* User Selection (Simplified ID for now) */}
+                                     {/* User Selection (Registration Number) */}
                                      <div>
-                                         <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Student ID</label>
+                                         <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Student Registration Number</label>
                                          <input 
-                                            type="number" 
+                                            type="text" 
                                             className="w-full bg-black/30 border border-white/10 rounded-xl p-3 text-sm focus:border-indigo-500 focus:outline-none"
-                                            value={formData.user_id}
-                                            onChange={e => setFormData({...formData, user_id: e.target.value})}
+                                            value={formData.registration_number}
+                                            onChange={e => setFormData({...formData, registration_number: e.target.value})}
                                             required
-                                            placeholder="System User ID"
+                                            placeholder="e.g. 242FA04197"
                                          />
                                      </div>
                                      <div>
@@ -323,6 +341,10 @@ const Achievements = () => {
                                             onChange={e => setFormData({...formData, image_url: e.target.value})}
                                             placeholder="https://..."
                                          />
+                                         <label className="cursor-pointer mt-2 flex items-center gap-2 text-xs text-indigo-400 hover:text-indigo-300">
+                                            <Upload size={14} /> <span>Browse Image</span>
+                                            <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'image_url')} />
+                                         </label>
                                      </div>
                                      <div>
                                          <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Certificate URL (Optional)</label>
@@ -332,6 +354,10 @@ const Achievements = () => {
                                             onChange={e => setFormData({...formData, certificate_url: e.target.value})}
                                             placeholder="https://..."
                                          />
+                                         <label className="cursor-pointer mt-2 flex items-center gap-2 text-xs text-indigo-400 hover:text-indigo-300">
+                                            <Upload size={14} /> <span>Browse File</span>
+                                            <input type="file" className="hidden" accept=".pdf,image/*" onChange={(e) => handleFileUpload(e, 'certificate_url')} />
+                                         </label>
                                      </div>
                                 </div>
 

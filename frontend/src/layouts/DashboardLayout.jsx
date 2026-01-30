@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
-import { LayoutDashboard, BookOpen, Calendar, FileText, LogOut, Upload, Menu, X, ChevronRight, User, Compass, Trophy } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Calendar, FileText, LogOut, Upload, Menu, X, ChevronRight, User, Compass, Trophy, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
+import { useTheme } from '../context/ThemeContext';
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
+  const { theme: currentTheme, toggleTheme } = useTheme();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false); // Default closed on mobile
 
@@ -65,7 +67,7 @@ const DashboardLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex font-sans text-slate-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex font-sans text-slate-900 dark:text-slate-100 transition-colors duration-200">
       
       {/* Mobile Sidebar BackDrop */}
       <AnimatePresence>
@@ -152,11 +154,24 @@ const DashboardLayout = () => {
             <LogOut className="mr-3 h-5 w-5" />
             Sign Out
           </button>
+          
+          <button
+            onClick={toggleTheme}
+            className={`mt-2 w-full flex items-center px-4 py-3 text-sm font-medium ${theme.sidebarText} hover:bg-white/10 hover:text-white rounded-xl transition-colors duration-200 justify-between group`}
+          >
+             <span className="flex items-center">
+                {currentTheme === 'dark' ? <Moon className="mr-3 h-5 w-5" /> : <Sun className="mr-3 h-5 w-5" />}
+                {currentTheme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+             </span>
+             <div className={`w-8 h-4 rounded-full p-0.5 transition-colors duration-200 ${currentTheme === 'dark' ? 'bg-indigo-500' : 'bg-slate-600'}`}>
+                <div className={`w-3 h-3 bg-white rounded-full shadow-sm transform transition-transform duration-200 ${currentTheme === 'dark' ? 'translate-x-4' : 'translate-x-0'}`} />
+             </div>
+          </button>
         </div>
       </motion.div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#F8FAFC]">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
          {/* Mobile Header */}
          <div className={`lg:hidden flex items-center justify-between px-4 py-3 border-b border-black/5 shadow-sm ${theme.mobileHeader}`}>
             <div className="flex items-center gap-2">

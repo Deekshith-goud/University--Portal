@@ -50,24 +50,28 @@ def create_achievement(
         if not event:
             raise HTTPException(status_code=404, detail="Event not found")
             
-    # Validate Student
-    student = db.query(User).filter(User.id == achievement.user_id).first()
+    # Resolve Student
+    student = None
+    if achievement.user_id:
+        student = db.query(User).filter(User.id == achievement.user_id).first()
+    elif achievement.registration_number:
+        student = db.query(User).filter(User.registration_number == achievement.registration_number).first()
+    
     if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
+        raise HTTPException(status_code=404, detail="Student not found. Check User ID or Registration Number.")
 
-    # Check duplicates? logic slightly complex now with null events, let's keep it simple:
-    # If event_id is present, check uniqueness per student.
+    # Check duplicates
     if achievement.event_id:
         existing = db.query(Achievement).filter(
             Achievement.event_id == achievement.event_id,
-            Achievement.user_id == achievement.user_id
+            Achievement.user_id == student.id
         ).first()
         if existing:
             raise HTTPException(status_code=400, detail="Student already has an achievement for this event")
 
     new_achievement = Achievement(
         event_id=achievement.event_id,
-        user_id=achievement.user_id,
+        user_id=student.id,
         title=achievement.title,
         description=achievement.description,
         category=achievement.category,
