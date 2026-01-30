@@ -13,7 +13,8 @@ class AchievementBase(BaseModel):
 
 class AchievementCreate(AchievementBase):
     event_id: Optional[int] = None # Now Optional
-    user_id: int # Still required
+    user_id: Optional[int] = None # Optional, can use reg number
+    registration_number: Optional[str] = None # Alternative to user_id
 
 class AchievementOut(AchievementBase):
     id: int

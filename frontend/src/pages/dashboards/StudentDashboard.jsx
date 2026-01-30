@@ -108,9 +108,9 @@ const StudentDashboard = ({ user, stats }) => {
         <div className="lg:col-span-8 flex flex-col gap-6">
             
             {/* Announcements Section (NEW) */}
-            <motion.div variants={item} className="p-6 bg-gradient-to-r from-indigo-50 to-white rounded-[2rem] border border-indigo-100/50">
+            <motion.div variants={item} className="p-6 bg-gradient-to-r from-indigo-50 to-white dark:from-slate-800 dark:to-slate-900 rounded-[2rem] border border-indigo-100/50 dark:border-slate-700">
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-lg text-slate-900 flex items-center">
+                    <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center">
                         <Megaphone className="w-5 h-5 mr-3 text-indigo-600" />
                         Latest Announcements
                     </h3>
@@ -122,17 +122,17 @@ const StudentDashboard = ({ user, stats }) => {
                 ) : (
                     <div className="space-y-3">
                         {announcements.slice(0, 3).map((ann, i) => (
-                             <div key={i} className="flex gap-4 p-4 bg-white rounded-2xl border border-indigo-50 shadow-sm hover:shadow-md transition-shadow">
+                             <div key={i} className="flex gap-4 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-indigo-50 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
                                 <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${ann.priority === 'urgent' ? 'bg-red-50 text-red-500' : 'bg-indigo-50 text-indigo-500'}`}>
                                     <Bell className="w-5 h-5" />
                                 </div>
                                 <div>
                                     <div className="flex items-center gap-2 mb-1">
-                                        <h4 className="font-bold text-slate-900 text-sm">{ann.title}</h4>
+                                        <h4 className="font-bold text-slate-900 dark:text-gray-100 text-sm">{ann.title}</h4>
                                         {ann.priority === 'urgent' && <span className="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Urgent</span>}
                                         <span className="text-[10px] text-slate-400">{new Date(ann.published_at).toLocaleDateString()}</span>
                                     </div>
-                                    <p className="text-xs text-slate-600 line-clamp-2">{ann.content}</p>
+                                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">{ann.content}</p>
                                 </div>
                              </div>
                         ))}
@@ -150,39 +150,39 @@ const StudentDashboard = ({ user, stats }) => {
             </motion.div>
 
             {/* Today's Schedule Row */}
-            <motion.div variants={item} className="flex-1 bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+            <motion.div variants={item} className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-slate-700">
                  <div className="flex items-center justify-between mb-8">
-                    <h3 className="font-bold text-xl text-slate-900 flex items-center">
+                    <h3 className="font-bold text-xl text-slate-900 dark:text-white flex items-center">
                         <Calendar className="w-6 h-6 mr-3 text-indigo-600" />
                         Today's Schedule
                     </h3>
-                    <span className="text-sm font-bold text-slate-400 bg-slate-50 px-3 py-1 rounded-full">{new Date().toLocaleDateString('en-US', { weekday: 'long' })}</span>
+                    <span className="text-sm font-bold text-slate-400 bg-slate-50 dark:bg-slate-700 dark:text-slate-300 px-3 py-1 rounded-full">{new Date().toLocaleDateString('en-US', { weekday: 'long' })}</span>
                 </div>
                 
                 {/* Timeline */}
-                <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[19px] before:w-0.5 before:bg-slate-100">
+                <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[19px] before:w-0.5 before:bg-slate-100 dark:before:bg-slate-700">
                     {[
                         { time: '09:00 AM', subject: 'Database Systems', type: 'Lecture', status: 'completed' },
                         { time: '10:30 AM', subject: 'Advanced Algorithms', type: 'Lecture', status: 'upcoming' },
                         { time: '02:00 PM', subject: 'Web Development Lab', type: 'Practical', status: 'future' },
                     ].map((cls, idx) => (
                         <div key={idx} className="relative pl-12 flex items-center group">
-                            <div className={`absolute left-0 w-10 h-10 rounded-full flex items-center justify-center border-4 border-white transition-colors z-10 ${
-                                cls.status === 'completed' ? 'bg-emerald-100 text-emerald-600' : 
-                                cls.status === 'upcoming' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-300' : 'bg-slate-100 text-slate-400'
+                            <div className={`absolute left-0 w-10 h-10 rounded-full flex items-center justify-center border-4 border-white dark:border-slate-800 transition-colors z-10 ${
+                                cls.status === 'completed' ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400' : 
+                                cls.status === 'upcoming' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-300 dark:shadow-indigo-900/50' : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-300'
                             }`}>
                                 {cls.status === 'completed' ? <CheckCircle className="w-5 h-5" /> : 
                                  cls.status === 'upcoming' ? <Clock className="w-5 h-5 animate-pulse" /> : 
                                  <div className="w-3 h-3 bg-slate-300 rounded-full" />}
                             </div>
                             <div className={`flex-1 p-5 rounded-2xl border transition-all ${
-                                cls.status === 'upcoming' ? 'bg-indigo-50 border-indigo-100 shadow-sm scale-[1.02]' : 
-                                'bg-white border-slate-100 hover:border-slate-200'
+                                cls.status === 'upcoming' ? 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-100 dark:border-indigo-800 shadow-sm scale-[1.02]' : 
+                                'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 hover:border-slate-200 dark:hover:border-slate-600'
                             }`}>
                                 <div className="flex justify-between items-start">
                                     <div>
-                                        <h4 className={`font-bold text-lg ${cls.status === 'completed' ? 'text-slate-500 line-through' : 'text-slate-900'}`}>{cls.subject}</h4>
-                                        <p className="text-slate-500 text-sm">{cls.type} • Room 304</p>
+                                        <h4 className={`font-bold text-lg ${cls.status === 'completed' ? 'text-slate-500 line-through' : 'text-slate-900 dark:text-white'}`}>{cls.subject}</h4>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">{cls.type} • Room 304</p>
                                     </div>
                                     <span className="font-mono text-sm font-bold text-slate-400">{cls.time}</span>
                                 </div>
@@ -199,26 +199,26 @@ const StudentDashboard = ({ user, stats }) => {
             
             {/* Quick Stats Grid */}
             <motion.div variants={item} className="grid grid-cols-2 gap-4">
-                 <div className="bg-emerald-50/50 p-6 rounded-[2rem] border border-emerald-100 flex flex-col items-center justify-center text-center hover:scale-[1.02] transition-transform">
+                 <div className="bg-emerald-50/50 dark:bg-emerald-900/10 p-6 rounded-[2rem] border border-emerald-100 dark:border-emerald-800 flex flex-col items-center justify-center text-center hover:scale-[1.02] transition-transform">
                     <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-3">
                         <Award className="w-5 h-5" />
                     </div>
-                    <span className="text-3xl font-black text-slate-900">3.8</span>
-                    <span className="text-xs font-bold text-emerald-700 uppercase tracking-wide mt-1">Current GPA</span>
+                    <span className="text-3xl font-black text-slate-900 dark:text-emerald-100">3.8</span>
+                    <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wide mt-1">Current GPA</span>
                  </div>
-                 <div className="bg-blue-50/50 p-6 rounded-[2rem] border border-blue-100 flex flex-col items-center justify-center text-center hover:scale-[1.02] transition-transform">
+                 <div className="bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-[2rem] border border-blue-100 dark:border-blue-800 flex flex-col items-center justify-center text-center hover:scale-[1.02] transition-transform">
                     <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-3">
                         <BookOpen className="w-5 h-5" />
                     </div>
-                    <span className="text-3xl font-black text-slate-900">{stats?.pending_assignments || 3}</span>
-                    <span className="text-xs font-bold text-blue-700 uppercase tracking-wide mt-1">Pending</span>
+                    <span className="text-3xl font-black text-slate-900 dark:text-blue-100">{stats?.pending_assignments || 3}</span>
+                    <span className="text-xs font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wide mt-1">Pending</span>
                  </div>
             </motion.div>
 
             {/* Upcoming Deadlines */}
-            <motion.div variants={item} className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 flex-1 flex flex-col">
+            <motion.div variants={item} className="bg-white dark:bg-slate-800 rounded-[2rem] shadow-sm border border-slate-100 dark:border-slate-700 p-6 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-6">
-                    <h3 className="font-bold text-lg text-slate-900 flex items-center">
+                    <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center">
                         <AlertTriangle className="w-5 h-5 mr-2 text-amber-500" />
                         Deadlines
                     </h3>
@@ -231,13 +231,13 @@ const StudentDashboard = ({ user, stats }) => {
                         { title: "SQL Portfolio", subject: "DBMS", due: "Tomorrow", urgency: "medium" },
                         { title: "React Project", subject: "Web Dev", due: "Fri, Dec 15", urgency: "low" },
                     ].map((task, i) => (
-                        <div key={i} className="group flex items-center p-3 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer border border-transparent hover:border-slate-100">
+                        <div key={i} className="group flex items-center p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer border border-transparent hover:border-slate-100 dark:hover:border-slate-600">
                              <div className={`w-1.5 h-10 rounded-full mr-4 ${
                                  task.urgency === 'high' ? 'bg-red-500' : task.urgency === 'medium' ? 'bg-amber-400' : 'bg-emerald-400'
                              }`} />
                              <div className="flex-1 min-w-0">
-                                 <h4 className="font-bold text-sm text-slate-900 truncate group-hover:text-indigo-600 transition-colors">{task.title}</h4>
-                                 <p className="text-xs text-slate-500">{task.subject}</p>
+                                 <h4 className="font-bold text-sm text-slate-900 dark:text-slate-200 truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{task.title}</h4>
+                                 <p className="text-xs text-slate-500 dark:text-slate-400">{task.subject}</p>
                              </div>
                              <div className="text-right pl-2">
                                  <p className={`text-xs font-bold ${

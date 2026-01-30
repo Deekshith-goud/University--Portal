@@ -1,14 +1,7 @@
 import React from 'react';
 import { Award, Trophy, User, Medal, ExternalLink, Calendar } from 'lucide-react';
 
-const BadgeIcon = ({ type }) => {
-    switch (type?.toLowerCase()) {
-        case 'gold': return <Medal className="w-6 h-6 text-yellow-400 drop-shadow-lg" fill="currentColor" />;
-        case 'silver': return <Medal className="w-6 h-6 text-slate-300 drop-shadow-lg" fill="currentColor" />;
-        case 'bronze': return <Medal className="w-6 h-6 text-amber-700 drop-shadow-lg" fill="currentColor" />;
-        default: return <Trophy className="w-5 h-5 text-indigo-400" />;
-    }
-};
+import BadgeIcon from './BadgeIcon';
 
 const AchievementCard = ({ achievement, showEventName = true }) => {
   return (
