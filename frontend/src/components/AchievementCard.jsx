@@ -1,19 +1,14 @@
 import React from 'react';
-import { Award, Trophy, User, Medal, ExternalLink, Calendar } from 'lucide-react';
+import { Award, Trophy, User, Medal, ExternalLink, Calendar, Image as ImageIcon } from 'lucide-react';
 
 import BadgeIcon from './BadgeIcon';
 
 const AchievementCard = ({ achievement, showEventName = true }) => {
-  return (
-    <div className="group relative bg-[#1a1c23] border border-white/5 rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-all hover:translate-y-[-2px] hover:shadow-xl hover:shadow-indigo-500/10">
-        {/* Background Image Effect if available */}
-        {achievement.image_url && (
-             <div className="absolute inset-0 z-0">
-                 <img src={achievement.image_url} className="w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f1115] via-[#0f1115]/90 to-transparent" />
-             </div>
-        )}
+    const [showImageModal, setShowImageModal] = React.useState(false);
 
+  return (
+    <>
+    <div className="group relative bg-[#1a1c23] border border-white/5 rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-all hover:translate-y-[-2px] hover:shadow-xl hover:shadow-indigo-500/10">
         <div className="relative z-10 p-5 flex flex-col h-full">
             <div className="flex justify-between items-start mb-3">
                 <div className="flex gap-3">
@@ -58,21 +53,57 @@ const AchievementCard = ({ achievement, showEventName = true }) => {
                     <div className="text-xs text-gray-500 italic">Unknown Student</div>
                 )}
                 
-                {/* Certificate Link */}
-                {achievement.certificate_url && (
-                    <a 
-                        href={achievement.certificate_url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                        title="View Certificate"
-                    >
-                        <ExternalLink size={16} />
-                    </a>
-                )}
+                <div className="flex gap-2">
+                    {/* View Image Action */}
+                    {achievement.image_url && (
+                        <button 
+                            onClick={() => setShowImageModal(true)}
+                            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                            title="View Photo"
+                        >
+                            <ImageIcon size={16} />
+                        </button>
+                    )}
+
+                    {/* Certificate Link */}
+                    {achievement.certificate_url && (
+                        <a 
+                            href={achievement.certificate_url.startsWith('/static') ? `http://localhost:8000${achievement.certificate_url}` : achievement.certificate_url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                            title="View Certificate"
+                        >
+                            <ExternalLink size={16} />
+                        </a>
+                    )}
+                </div>
             </div>
         </div>
     </div>
+
+    {/* Image Modal */}
+    {showImageModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setShowImageModal(false)}>
+            <div className="relative max-w-4xl max-h-[90vh] w-full bg-[#1a1c23] rounded-2xl border border-white/10 overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+                <div className="absolute top-4 right-4 z-10">
+                     <button onClick={() => setShowImageModal(false)} className="p-2 bg-black/50 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                     </button>
+                </div>
+                <img 
+                    src={achievement.image_url.startsWith('/static') ? `http://localhost:8000${achievement.image_url}` : achievement.image_url} 
+                    alt={achievement.title}
+                    className="w-full h-full object-contain max-h-[85vh]"
+                />
+                <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/90 to-transparent">
+                    <h3 className="text-white font-bold text-lg">{achievement.title}</h3>
+                    <p className="text-gray-300 text-sm">{achievement.description}</p>
+                </div>
+            </div>
+        </div>
+    )}
+    </>
   );
 };
 

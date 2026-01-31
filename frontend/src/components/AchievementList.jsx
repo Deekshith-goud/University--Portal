@@ -213,10 +213,12 @@ const AchievementList = ({
                                         value={formData.category}
                                         onChange={e => setFormData({...formData, category: e.target.value})}
                                     >
-                                        <option value="Internal">Internal</option>
-                                        <option value="External">External</option>
-                                        <option value="Academic">Academic</option>
+                                        <option value="Technical">Technical</option>
                                         <option value="Sports">Sports</option>
+                                        <option value="Dance">Dance</option>
+                                        <option value="Singing">Singing</option>
+                                        <option value="Academic">Academic</option>
+                                        <option value="External">External</option>
                                     </select>
                                     </div>
                             </div>
@@ -229,6 +231,11 @@ const AchievementList = ({
                                     onChange={e => setFormData({...formData, image_url: e.target.value})}
                                     placeholder="https://..."
                                 />
+                                {formData.image_url && formData.image_url.startsWith('/static') && (
+                                     <div className="mt-2 text-xs text-indigo-400">
+                                         Preview: <a href={`http://localhost:8000${formData.image_url}`} target="_blank" rel="noreferrer" className="underline">View Image</a>
+                                     </div>
+                                )}
                                 <label className="cursor-pointer mt-2 flex items-center gap-2 text-xs text-indigo-400 hover:text-indigo-300">
                                    <Upload size={14} /> <span>Browse Image</span>
                                    <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'image_url')} />
@@ -244,6 +251,11 @@ const AchievementList = ({
                                     value={formData.certificate_url}
                                     onChange={e => setFormData({...formData, certificate_url: e.target.value})}
                                 />
+                                {formData.certificate_url && formData.certificate_url.startsWith('/static') && (
+                                     <div className="mt-2 text-xs text-indigo-400">
+                                         Preview: <a href={`http://localhost:8000${formData.certificate_url}`} target="_blank" rel="noreferrer" className="underline">View Certificate</a>
+                                     </div>
+                                )}
                                 <label className="cursor-pointer mt-2 flex items-center gap-2 text-xs text-indigo-400 hover:text-indigo-300">
                                    <Upload size={14} /> <span>Browse File</span>
                                    <input type="file" className="hidden" accept=".pdf,image/*" onChange={(e) => handleFileUpload(e, 'certificate_url')} />
