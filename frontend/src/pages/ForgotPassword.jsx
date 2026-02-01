@@ -55,7 +55,7 @@ const ForgotPassword = () => {
         setError('');
         setLoading(true);
         try {
-            await resetPassword({ email, otp, new_password: newPassword });
+            await resetPassword({ email: email.trim(), otp: otp.trim(), new_password: newPassword.trim() });
             showToast("Password Reset Successfully!", 'success');
             setTimeout(() => navigate('/login'), 1500);
         } catch (err) {

@@ -3,7 +3,11 @@ import { useAuth } from '../auth/AuthProvider';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, Lock, Key, ArrowRight, RefreshCw, Send } from 'lucide-react';
+
+
 import Toast from '../components/ui/Toast';
+import { clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
 
 const Signup = () => {
     const { register, sendOtp } = useAuth();
@@ -14,6 +18,7 @@ const Signup = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [otp, setOtp] = useState('');
     
     // Student Details
@@ -64,15 +69,20 @@ const Signup = () => {
         e.preventDefault();
         if (!otpSent) { setError("Please verify email first."); return; }
         
+        if (password !== confirmPassword) {
+            setError("Passwords do not match.");
+            return;
+        }
+
         setError('');
         setLoading(true);
         try {
             // Role is handled by backend (forced to student)
             await register({ 
                 name, 
-                email, 
+                email: email.trim(), 
                 password, 
-                otp,
+                otp: otp.trim(),
                 registration_number: regNo,
                 // branch, section, year removed - user completes later
             });
@@ -86,16 +96,6 @@ const Signup = () => {
             setLoading(false);
         }
     };
-
-    const CommonInput = ({ icon: Icon, ...props }) => (
-        <div className="group relative">
-            <Icon className="absolute left-3 top-3.5 h-4 w-4 text-slate-400 group-focus-within:text-indigo-600" />
-            <input 
-                {...props}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all"
-            />
-        </div>
-    );
 
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4 relative">
@@ -208,13 +208,22 @@ const Signup = () => {
                                             value={otp} onChange={e => setOtp(e.target.value)} 
                                         />
 
-                                        <CommonInput 
-                                            icon={Lock} 
-                                            type="password" 
-                                            placeholder="Create Password" 
-                                            required 
-                                            value={password} onChange={e => setPassword(e.target.value)} 
-                                        />
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <CommonInput 
+                                                icon={Lock} 
+                                                type="password" 
+                                                placeholder="Create Password" 
+                                                required 
+                                                value={password} onChange={e => setPassword(e.target.value)} 
+                                            />
+                                            <CommonInput 
+                                                icon={Lock} 
+                                                type="password" 
+                                                placeholder="Confirm Password" 
+                                                required 
+                                                value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} 
+                                            />
+                                        </div>
 
                                         <div className="flex justify-between items-center text-xs text-slate-400">
                                             <span>Code sent to {email}</span>
@@ -249,5 +258,15 @@ const Signup = () => {
         </div>
     );
 };
+
+const CommonInput = ({ icon: Icon, className, ...props }) => (
+    <div className="group relative">
+        <Icon className="absolute left-3 top-3.5 h-4 w-4 text-slate-400 group-focus-within:text-indigo-600" />
+        <input 
+            {...props}
+            className={twMerge(clsx("w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all", className))}
+        />
+    </div>
+);
 
 export default Signup;
