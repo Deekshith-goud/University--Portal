@@ -3,6 +3,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, Lock, Key, ArrowRight, RefreshCw, Send } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 
 import Toast from '../components/ui/Toast';
@@ -118,9 +119,11 @@ const Signup = () => {
                     />
                     <div className="absolute inset-0 flex flex-col justify-between p-10 z-10">
                         <div>
-                             <div className="h-10 w-10 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center text-white font-bold text-xl mb-6">S</div>
+                             <div className="h-14 w-14 flex items-center justify-center mb-6">
+                                <img src={logo} alt="STAMP Logo" className="h-full w-full object-contain drop-shadow-xl" />
+                             </div>
                              <h1 className="text-3xl font-bold text-white font-display leading-tight tracking-tight">
-                                Student<br/>Portal
+                                STAMP<br/>Student Portal
                              </h1>
                         </div>
                         <div className="p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">

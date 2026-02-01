@@ -5,6 +5,7 @@ import { LayoutDashboard, BookOpen, Calendar, FileText, LogOut, Upload, Menu, X,
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import { useTheme } from '../context/ThemeContext';
+import logo from '../assets/logo.png';
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
@@ -92,11 +93,11 @@ const DashboardLayout = () => {
         {/* Header */}
         <div className="flex items-center justify-between h-20 px-6 border-b border-white/5">
           <Link to="/dashboard" className="flex items-center gap-3">
-            <div className={`h-9 w-9 rounded-xl bg-gradient-to-br ${theme.logoGradient} flex items-center justify-center text-white font-bold text-lg shadow-lg`}>
-                U
+            <div className={`h-10 w-10 flex items-center justify-center`}>
+                <img src={logo} alt="STAMP Logo" className="h-full w-full object-contain" />
             </div>
             <span className="text-xl font-bold font-display text-white tracking-tight">
-                UniPortal
+                STAMP
             </span>
           </Link>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white/50 hover:text-white">
@@ -175,8 +176,8 @@ const DashboardLayout = () => {
          {/* Mobile Header */}
          <div className={`lg:hidden flex items-center justify-between px-4 py-3 border-b border-black/5 shadow-sm ${theme.mobileHeader}`}>
             <div className="flex items-center gap-2">
-                 <div className={`h-8 w-8 rounded-lg bg-gradient-to-br ${theme.logoGradient} flex items-center justify-center text-white font-bold text-lg`}>U</div>
-                 <span className="font-bold">UniPortal</span>
+                 <img src={logo} alt="STAMP Logo" className="h-8 w-8 object-contain" />
+                 <span className="font-bold">STAMP</span>
             </div>
             <button onClick={() => setSidebarOpen(true)} className="p-2 -mr-2 text-white/80 hover:text-white">
                 <Menu className="w-6 h-6" />
