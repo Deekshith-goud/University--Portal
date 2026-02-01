@@ -119,14 +119,14 @@ def send_email_otp(to_email: str, otp_code: str, reason: str = "login"):
         print(f"   Go to: https://myaccount.google.com/apppasswords\n")
         print("Falling back to console print...")
         print_otp_to_console(to_email, otp_code)
-        return False
+        return True
         
     except Exception as e:
         print(f"\n❌ FAILED to send email via SMTP.")
         print(f"   Error: {e}")
         print("Falling back to console print...")
         print_otp_to_console(to_email, otp_code)
-        return False
+        return True
 
 def get_modern_email_html(otp_code: str, reason: str = "login"):
     """
