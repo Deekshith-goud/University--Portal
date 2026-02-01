@@ -3,6 +3,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -131,11 +132,11 @@ const Login = () => {
                     {/* Glass Overlay Text */}
                     <div className="absolute inset-0 flex flex-col justify-between p-10 z-10">
                         <div>
-                             <div className="h-10 w-10 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center text-white font-bold text-xl mb-6">
-                                U
+                             <div className="h-14 w-14 flex items-center justify-center mb-6">
+                                <img src={logo} alt="STAMP Logo" className="h-full w-full object-contain drop-shadow-xl" />
                              </div>
                              <h1 className="text-3xl font-bold text-white font-display leading-tight tracking-tight">
-                                Academic<br/>Excellence<br/>Platform.
+                                STAMP<br/>University Portal.
                              </h1>
                         </div>
                         
@@ -164,10 +165,10 @@ const Login = () => {
                                 Welcome Back
                             </span>
                             <h2 className="text-2xl font-bold text-slate-900 font-display">
-                                {theme.name} Login
+                                STAMP {theme.name} Login
                             </h2>
                             <p className="text-slate-500 mt-1 text-xs">
-                                Secure access to the university portal.
+                                Secure access to the STAMP university portal.
                             </p>
                         </div>
 

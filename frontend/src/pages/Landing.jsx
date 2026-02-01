@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BookOpen, GraduationCap, ShieldCheck, ArrowRight } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 const Landing = () => {
   const containerVariants = {
@@ -55,7 +56,7 @@ const Landing = () => {
         animate="visible"
       >
         <div className="mb-4 inline-flex items-center px-4 py-2 rounded-full bg-white shadow-sm border border-slate-200">
-           <span className="flex h-2 w-2 rounded-full bg-emerald-500 mr-2"></span>
+           <img src={logo} alt="STAMP" className="w-4 h-4 mr-2 object-contain" />
            <span className="text-sm font-medium text-slate-600">Secure Academic Portal</span>
         </div>
 
@@ -63,7 +64,7 @@ const Landing = () => {
           className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight font-display mb-6"
           variants={itemVariants}
         >
-          University <span className="text-blue-600">Portal</span>
+          STAMP <span className="text-blue-600">Portal</span>
         </motion.h1>
         
         <motion.p 

@@ -6,9 +6,8 @@ import smtplib
 from email.utils import formatdate, make_msgid
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
 import os
-
-import random
 
 def generate_otp(length=6):
     return ''.join(random.choices(string.digits, k=length))
@@ -19,7 +18,7 @@ def get_email_content(reason: str = "login"):
     """
     content_map = {
         "signup": {
-            "title": "Welcome to VFSTR",
+            "title": "Welcome to STAMP",
             "subtitle": "Account Verification",
             "greeting": "Verify Your Email",
             "text": "Thank you for joining. Use the code below to verify your email and complete your registration.",
@@ -34,9 +33,9 @@ def get_email_content(reason: str = "login"):
         },
         "login": {
             "title": "Secure Login",
-            "subtitle": "University Excellence Portal",
+            "subtitle": "STAMP University Portal",
             "greeting": "Login Verification",
-            "text": "Use the code below to access your <strong>VFSTR Student Portal</strong> account.",
+            "text": "Use the code below to access your <strong>STAMP Student Portal</strong> account.",
             "btn": "VERIFY LOGIN"
         }
     }
@@ -79,12 +78,15 @@ def send_email_otp(to_email: str, otp_code: str, reason: str = "login"):
         return True
 
     try:
-        msg = MIMEMultipart("alternative")
+        msg = MIMEMultipart("related") # Changed to related for CID images
         msg["Subject"] = subject
-        msg["From"] = f"VFSTR Portal <{smtp_user}>"
+        msg["From"] = f"STAMP Portal <{smtp_user}>"
         msg["To"] = to_email
         msg["Date"] = formatdate(localtime=True)
         msg["Message-ID"] = make_msgid(domain="gmail.com")
+
+        msg_alternative = MIMEMultipart("alternative")
+        msg.attach(msg_alternative)
 
         # 1. Plain Text Version (Vital for Spam Score)
         text_content = f"""
@@ -97,12 +99,26 @@ def send_email_otp(to_email: str, otp_code: str, reason: str = "login"):
         YOUR CODE: {otp_code}
         
         (Valid for 5 minutes)
-        VFSTR Deemed to be University
+        STAMP - University Administration System
         """
-        msg.attach(MIMEText(text_content, "plain"))
+        msg_alternative.attach(MIMEText(text_content, "plain"))
 
         # 2. HTML Version (Must be added last/second)
-        msg.attach(MIMEText(html_content, "html"))
+        msg_alternative.attach(MIMEText(html_content, "html"))
+
+        # 3. Attach Logo CID
+        # Path to logo: Assuming running from backend root or finding relative
+        # Adjust path as needed. Assuming standard structure:
+        logo_path = os.path.join(os.path.dirname(__file__), "../../../frontend/src/assets/logo.png")
+        if os.path.exists(logo_path):
+            with open(logo_path, 'rb') as f:
+                img_data = f.read()
+            image = MIMEImage(img_data)
+            image.add_header('Content-ID', '<logo>')
+            image.add_header('Content-Disposition', 'inline', filename='logo.png')
+            msg.attach(image)
+        else:
+             print(f"⚠️ Logo not found at {logo_path}")
 
         with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls()
@@ -176,19 +192,16 @@ def get_modern_email_html(otp_code: str, reason: str = "login"):
                 top: 0; left: 0; right: 0;
             }}
 
-            .logo-circle {{
-                width: 56px; height: 56px;
-                background: linear-gradient(135deg, #1e293b 0%, #334155 100%); /* Darker circle */
-                border-radius: 18px;
+            .logo-container {{
                 margin: 0 auto 20px;
-                display: flex; 
-                line-height: 56px; 
                 text-align: center;
-                color: #fff; /* White Text */
-                font-size: 24px;
-                font-weight: bold;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-                border: 1px solid rgba(255,255,255,0.1);
+            }}
+            
+            .logo-img {{
+                height: 60px;
+                width: auto;
+                object-fit: contain;
+                filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
             }}
 
             .title {{ font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 8px; }} /* White Title */
@@ -253,7 +266,9 @@ def get_modern_email_html(otp_code: str, reason: str = "login"):
             <div class="card">
                 <div class="shine-bar"></div>
                 <div class="card-header">
-                    <div class="logo-circle">U</div>
+                    <div class="logo-container">
+                        <img src="cid:logo" alt="STAMP" class="logo-img" />
+                    </div>
                     <div class="title">{ctx['title']}</div>
                     <div class="subtitle">{ctx['subtitle']}</div>
                 </div>
@@ -274,7 +289,7 @@ def get_modern_email_html(otp_code: str, reason: str = "login"):
                 </div>
                 
                 <div class="footer">
-                    VFSTR Deemed to be University • Secure Portal
+                    STAMP - University Administration Portal • Secure System
                 </div>
             </div>
         </div>
@@ -297,3 +312,4 @@ def print_otp_to_console(email: str, otp: str):
     print(f"\n   >>>>>  {otp}  <<<<<\n")
     print(f"(Valid for 5 minutes)")
     print("="*60 + "\n")
+
