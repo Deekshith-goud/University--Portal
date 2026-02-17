@@ -100,9 +100,9 @@ const Login = () => {
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                // REDUCED SIZE: max-w-[1000px] and min-h-[600px] instead of 1200x750
+                // REDUCED SIZE: max-w-[950px] and min-h-[500px]
                 // This ensures it fits on smaller laptop screens without scrolling
-                className="w-full max-w-[1000px] min-h-[550px] bg-white rounded-[24px] shadow-2xl overflow-hidden flex"
+                className="w-full max-w-[950px] min-h-[500px] bg-white rounded-[24px] shadow-2xl overflow-hidden flex"
             >
                 {/* LEFT SIDE: Professional Liquid Motion */}
                 <div className="hidden lg:block w-[45%] relative overflow-hidden">
@@ -151,8 +151,8 @@ const Login = () => {
                 </div>
 
                 {/* RIGHT SIDE: Clean Professional Form */}
-                {/* Reduced Padding: p-8 lg:p-12 */}
-                <div className="w-full lg:w-[55%] p-8 lg:p-14 flex flex-col justify-center bg-white relative">
+                {/* Reduced Padding: p-6 lg:p-10 */}
+                <div className="w-full lg:w-[55%] p-6 lg:p-10 flex flex-col justify-center bg-white relative">
                     <div className="absolute top-8 right-8">
                          <Link to="/" className="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors">
                             Change Portal

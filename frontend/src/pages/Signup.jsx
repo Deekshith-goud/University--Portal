@@ -107,7 +107,8 @@ const Signup = () => {
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-[1000px] min-h-[600px] bg-white rounded-[24px] shadow-2xl overflow-hidden flex"
+                // Reduced min-h from 600px to 550px
+                className="w-full max-w-[1000px] min-h-[550px] bg-white rounded-[24px] shadow-2xl overflow-hidden flex"
             >
                 {/* LEFT SIDE: Student Theme */}
                 <div className="hidden lg:block w-[40%] relative overflow-hidden">
@@ -135,7 +136,8 @@ const Signup = () => {
                 </div>
 
                 {/* RIGHT SIDE: Signup Form */}
-                <div className="w-full lg:w-[60%] p-8 lg:p-10 flex flex-col justify-center bg-white relative overflow-y-auto max-h-[90vh]">
+                {/* Reduced p-8 lg:p-10 to p-6 lg:p-8 */}
+                <div className="w-full lg:w-[60%] p-6 lg:p-8 flex flex-col justify-center bg-white relative overflow-y-auto max-h-[90vh]">
                      <div className="max-w-md mx-auto w-full">
                         <div className="mb-6">
                             <span className="text-[10px] font-bold tracking-widest uppercase text-indigo-600 mb-1 block">Registration</span>
