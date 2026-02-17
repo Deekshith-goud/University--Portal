@@ -1,6 +1,6 @@
 <div align="center">
 
-# EduGraph X
+#STAMP
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=3B82F6&center=true&vCenter=true&width=435&lines=Student+Portal+Reimagined;Empowering+Academic+Excellence;Seamless.+Secure.+Smart.)](https://git.io/typing-svg)
 
