@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 from typing import Any, Union
-import bcrypt 
+import bcrypt
 from jose import jwt
+from app.core.config import settings
 
-# CONSTANTS - In production, these should be env vars
-SECRET_KEY = "UNSAFE_CHANGE_THIS_IN_PRODUCTION"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.ALGORITHM
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     # bcrypt.checkpw requires bytes

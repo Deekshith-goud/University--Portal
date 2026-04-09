@@ -43,7 +43,7 @@ services:
       DB_PORT: "3306"
       DB_NAME: "student_portal_db"
       # Secret key — must match config.py SECRET_KEY field
-      SECRET_KEY: "CHANGE_THIS_IN_PRODUCTION_USE_A_LONG_RANDOM_STRING"
+      SECRET_KEY: "5490e38f082295c4e0612720291708d10e47d51094a6764f634a549282c1ca79"
       # Redis
       REDIS_URL: "redis://redis:6379/0"
       ENV: "production"
