@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: university_portal_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: student_portal_db
+      MYSQL_USER: portal_user
+      MYSQL_PASSWORD: portal_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: university_portal_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: university_portal_api
+    restart: always
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8000:8000"
+    environment:
+      # Individual DB_* variables — must match backend/app/core/config.py
+      DB_USER: "portal_user"
+      DB_PASSWORD: "portal_password"
+      DB_HOST: "db"
+      DB_PORT: "3306"
+      DB_NAME: "student_portal_db"
+      # Secret key — must match config.py SECRET_KEY field
+      SECRET_KEY: "CHANGE_THIS_IN_PRODUCTION_USE_A_LONG_RANDOM_STRING"
+      # Redis
+      REDIS_URL: "redis://redis:6379/0"
+      ENV: "production"
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: university_portal_web
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    # Nginx in this container should proxy /api/* requests to the 'api' service
+
+volumes:
+  db_data:
+  redis_data:
